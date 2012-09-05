@@ -270,11 +270,11 @@ class TestIbatch(unittest.TestCase):
         self.assertEqual([9], list(next(batches)))
 
 
-class TestSqliteStore(unittest.TestCase, KVStoreBase):
+class TestSQLiteStore(unittest.TestCase, KVStoreBase):
     DB = "tests.test_sqlite_store"
 
     def setUp(self):
-        self.store = park.SqliteStore(self.DB)
+        self.store = park.SQLiteStore(self.DB)
 
         def cleanup():
             if os.path.exists(self.DB):

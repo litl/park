@@ -11,7 +11,7 @@ import sqlite3
 
 logger = logging.getLogger(__name__)
 
-__all__ = ["SqliteStore", "KVStore"]
+__all__ = ["SQLiteStore", "KVStore"]
 
 
 class KVStore(object):
@@ -34,7 +34,7 @@ class KVStore(object):
 
         ::
 
-            with park.SqliteStore("/path/to/db") as kv:
+            with park.SQLiteStore("/path/to/db") as kv:
                 kv.put("my_key", "my_value")
 
         """
@@ -199,7 +199,7 @@ def ibatch(iterable, size):
         yield itertools.chain([next(batch)], batch)
 
 
-class SqliteStore(KVStore):
+class SQLiteStore(KVStore):
     """An implementation of KVStore in an SQLite database.
 
     :param path: The filesystem path for the database, which will be
@@ -209,7 +209,7 @@ class SqliteStore(KVStore):
     This is what you want to use. See `KVStore` for what you can do
     with it.
 
-    SqliteStore uses an embarrassingly simple SQL schema:
+    SQLiteStore uses an embarrassingly simple SQL schema:
 
     .. code-block:: sql
 
@@ -271,7 +271,7 @@ class SqliteStore(KVStore):
         del self.conn
 
     def _create_db(self, conn):
-        logger.debug("Creating SqliteStore schema")
+        logger.debug("Creating SQLiteStore schema")
         c = conn.cursor()
 
         c.execute("""

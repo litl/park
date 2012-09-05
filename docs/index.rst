@@ -5,7 +5,7 @@ Release v\ |release|.
 
 .. include:: ../README.rst
 
-.. autoclass:: park.SqliteStore
+.. autoclass:: park.SQLiteStore
    :members:
 
 .. autoclass:: park.KVStore

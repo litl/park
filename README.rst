@@ -10,7 +10,7 @@ It supports simple getting and setting of byte data:
 
 ::
 
-    >>> kv = park.SqliteStore("numbers.park")
+    >>> kv = park.SQLiteStore("numbers.park")
     >>> kv.put("1", "one")
     >>> kv.put("2", "two")
     >>> kv.put("3", "three")
