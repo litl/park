@@ -6,7 +6,35 @@ import sys
 # Require setuptools. See http://pypi.python.org/pypi/setuptools for
 # installation instructions, or run the ez_setup script found at
 # http://peak.telecommunity.com/dist/ez_setup.py
-from setuptools import setup, find_packages
+from setuptools import setup, find_packages, Command
+
+class CheckCommand(Command):
+    description = "Run tests."
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        import subprocess
+
+        print "Running pep8..."
+        if subprocess.call(["pep8", "park.py", "test_park.py"]):
+            sys.exit("ERROR: failed pep8 checks")
+
+        print "Running pyflakes..."
+        if subprocess.call(["pyflakes", "park.py", "test_park.py"]):
+            sys.exit("ERROR: failed pyflakes checks")
+
+        print "Running tests..."
+        if subprocess.call(["coverage", "run", "--source=park,test_park",
+                            "./setup.py", "test"]):
+            sys.exit("ERROR: failed unit tests")
+
+        subprocess.call(['coverage', 'report', '-m'])
 
 
 setup(
@@ -21,8 +49,15 @@ setup(
     test_suite="test_park",
 
     setup_requires = [
+        "coverage==3.5.2",
+        "pep8==1.3.3",
+        "pyflakes==0.5.0",
         "unittest2==0.5.1"
         ],
+
+    cmdclass = {
+        "check": CheckCommand
+        },
 
     classifiers = [
         "Development Status :: 5 - Production/Stable",
