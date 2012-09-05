@@ -3,7 +3,6 @@
 
 import operator
 import os
-import shutil
 import unittest2 as unittest
 
 import park
@@ -83,7 +82,7 @@ class KVStoreBase(object):
             ("seven", "value7"),
             ("eight", "value8"),
             ("nine", "value9")
-            ]
+        ]
 
         self.store.put_many(items)
 
@@ -119,7 +118,7 @@ class KVStoreBase(object):
             ("seven", "value7"),
             ("eight", "value8"),
             ("nine", "value9")
-            ]
+        ]
 
         for key, value in items:
             self.store.put(key, value)
@@ -188,7 +187,7 @@ class KVStoreBase(object):
             ("seven", "value7"),
             ("eight", "value8"),
             ("nine", "value9")
-            ])
+        ])
 
         for key, value in put_items.items():
             self.store.put(key, value)

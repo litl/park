@@ -1,6 +1,7 @@
 *.pyc
 *.egg
 *.egg-info
+.coverage
 dist/
 docs/_build
 tests.*
