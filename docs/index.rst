@@ -1,7 +1,7 @@
 Park: The Laziest Data Store
 ============================
 
-Release v\ |version|.
+Release v\ |release|.
 
 .. include:: ../README.rst
 
