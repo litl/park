@@ -48,13 +48,6 @@ setup(
     py_modules=["park"],
     test_suite="test_park",
 
-    setup_requires = [
-        "coverage==3.5.2",
-        "pep8==1.3.3",
-        "pyflakes==0.5.0",
-        "unittest2==0.5.1"
-        ],
-
     cmdclass = {
         "check": CheckCommand
         },
