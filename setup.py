@@ -39,7 +39,7 @@ class CheckCommand(Command):
 
 setup(
     name="park",
-    version="1.0.0",
+    version="0.9.0",
     author="Peter Teichman",
     author_email="pteichman@litl.com",
     license="MIT",
