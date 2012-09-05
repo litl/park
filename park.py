@@ -25,7 +25,7 @@ class KVStore(object):
     def __exit__(self, *exc_info):
         self.close()
 
-    def close(self):
+    def close(self):  # pragma: no cover
         """Release any resources associated with a KVStore.
 
         This is used to support the Python context manager protocol

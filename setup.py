@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import park
 import sys
 
 # Require setuptools. See http://pypi.python.org/pypi/setuptools for
@@ -39,7 +40,7 @@ class CheckCommand(Command):
 
 setup(
     name="park",
-    version="0.9.0",
+    version=park.__version__,
     author="Peter Teichman",
     author_email="pteichman@litl.com",
     license="MIT",
