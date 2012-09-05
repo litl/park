@@ -1,7 +1,7 @@
 # coding: utf-8
 # Copyright 2012 litl, LLC. All Rights Reserved.
 
-__version__ = "1.0.0"
+__version__ = "0.9.1"
 
 import abc
 import itertools
