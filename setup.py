@@ -15,11 +15,20 @@ setup(
     author="Peter Teichman",
     author_email="pteichman@litl.com",
     license="MIT",
+    url = "https://github.com/litl/park",
     description="A key-value store with ordered traversal of keys",
     py_modules=["park"],
     test_suite="test_park",
 
     setup_requires = [
         "unittest2==0.5.1"
+        ],
+
+    classifiers = [
+        "Development Status :: 5 - Production/Stable",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python"
         ]
 )
