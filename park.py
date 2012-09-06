@@ -200,14 +200,13 @@ def ibatch(iterable, size):
 
 
 class SQLiteStore(KVStore):
-    """An implementation of KVStore in an SQLite database.
+    """A KVStore in an SQLite database. This is what you want to use.
 
     :param path: The filesystem path for the database, which will be
         created if it doesn't exist.
     :type path: str
 
-    This is what you want to use. See `KVStore` for what you can do
-    with it.
+    See :py:class:`park.KVStore` for what you can do with it.
 
     SQLiteStore uses an embarrassingly simple SQL schema:
 

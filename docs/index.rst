@@ -1,9 +1,10 @@
 Park: The Laziest Data Store
 ============================
 
-Release v\ |release|.
-
 .. include:: ../README.rst
+
+Details, details.
+-----------------
 
 .. autoclass:: park.SQLiteStore
    :members:
