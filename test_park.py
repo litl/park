@@ -250,7 +250,7 @@ class KVStoreBase(object):
         a_list = list(store.prefix_items("a/", strip_prefix=True))
         self.assertEqual(expected, a_list)
 
-    def testContextManager(self):
+    def test_context_manager(self):
         with self.store as kv:
             kv.put("foo", "bar")
             kv.put("baz", "quux")
