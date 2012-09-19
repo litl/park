@@ -2,40 +2,16 @@
 # coding: utf-8
 
 import park
-import sys
 
 # Require setuptools. See http://pypi.python.org/pypi/setuptools for
 # installation instructions, or run the ez_setup script found at
 # http://peak.telecommunity.com/dist/ez_setup.py
-from setuptools import setup, find_packages, Command
+from setuptools import setup
 
-class CheckCommand(Command):
-    description = "Run tests."
-    user_options = []
-
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
-
-    def run(self):
-        import subprocess
-
-        print "Running pep8..."
-        if subprocess.call(["pep8", "park.py", "test_park.py"]):
-            sys.exit("ERROR: failed pep8 checks")
-
-        print "Running pyflakes..."
-        if subprocess.call(["pyflakes", "park.py", "test_park.py"]):
-            sys.exit("ERROR: failed pyflakes checks")
-
-        print "Running tests..."
-        if subprocess.call(["coverage", "run", "--source=park,test_park",
-                            "./setup.py", "test"]):
-            sys.exit("ERROR: failed unit tests")
-
-        subprocess.call(['coverage', 'report', '-m'])
+# Load the test requirements. These are in a separate file so they can
+# be accessed from Travis CI and tox.
+with open("test-requirements.txt") as fd:
+    tests_require = list(fd.xreadlines())
 
 
 setup(
@@ -47,15 +23,13 @@ setup(
     url = "https://github.com/litl/park",
     description="A key-value store with ordered traversal of keys",
     py_modules=["park"],
-    test_suite="unittest2.collector",
-
-    cmdclass = {
-        "check": CheckCommand
-        },
 
     setup_requires = [
         "unittest2==0.5.1"
     ],
+
+    test_suite="unittest2.collector",
+    tests_require = tests_require,
 
     classifiers = [
         "Development Status :: 5 - Production/Stable",
