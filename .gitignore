@@ -2,6 +2,7 @@
 *.egg
 *.egg-info
 .coverage
+.tox
 dist/
 docs/_build
 tests.*
