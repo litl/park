@@ -47,16 +47,15 @@ setup(
     url = "https://github.com/litl/park",
     description="A key-value store with ordered traversal of keys",
     py_modules=["park"],
-    test_suite="test_park",
+    test_suite="unittest2.collector",
 
     cmdclass = {
         "check": CheckCommand
         },
 
-    tests_require = {
-        "unittest2==0.5.1",
-        "coverage==3.5.2"
-        },
+    setup_requires = [
+        "unittest2==0.5.1"
+    ],
 
     classifiers = [
         "Development Status :: 5 - Production/Stable",
