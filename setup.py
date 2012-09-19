@@ -53,6 +53,11 @@ setup(
         "check": CheckCommand
         },
 
+    tests_require = {
+        "unittest2==0.5.1",
+        "coverage==3.5.2"
+        },
+
     classifiers = [
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
