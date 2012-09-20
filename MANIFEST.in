@@ -1,1 +1,5 @@
-include README.rst LICENSE test_park.py
+include LICENSE
+include README.rst
+include run-tests
+include test_park.py
+include test-requirements.txt
