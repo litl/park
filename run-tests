@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Install the dependencies in test-requirements.txt before running
+# this script.
+
+pep8 park.py test_park.py
+pyflakes park.py test_park.py
+python setup.py test
