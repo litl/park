@@ -11,7 +11,7 @@ from setuptools import setup
 # Load the test requirements. These are in a separate file so they can
 # be accessed from Travis CI and tox.
 with open("test-requirements.txt") as fd:
-    tests_require = list(fd.xreadlines())
+    tests_require = list(fd)
 
 
 setup(
@@ -25,7 +25,7 @@ setup(
     py_modules=["park"],
 
     setup_requires=[
-        "unittest2==0.5.1"
+        "unittest2==1.1.0"
     ],
 
     test_suite="unittest2.collector",

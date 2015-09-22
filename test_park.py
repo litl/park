@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright 2012 litl, LLC. All Rights Reserved.
+# Copyright 2012-2015 litl, LLC. All Rights Reserved.
 
 import operator
 import os
@@ -189,12 +189,12 @@ class KVStoreBase(object):
             ("nine", "value9")
         ])
 
-        for key, value in put_items.items():
+        for key, value in list(put_items.items()):
             self.store.put(key, value)
 
         # Sorted order is: eight five four nine one seven six three two
         keys = list(self.store.items())
-        expected = sorted(put_items.items(), key=operator.itemgetter(0))
+        expected = sorted(list(put_items.items()), key=operator.itemgetter(0))
         self.assertEqual(expected, keys)
 
         # Test key_from on keys that are present and missing in the db
@@ -260,7 +260,7 @@ class KVStoreBase(object):
 
 class TestIbatch(unittest.TestCase):
     def test_ibatch(self):
-        items = range(10)
+        items = list(range(10))
 
         batches = park.ibatch(items, 3)
 
