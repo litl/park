@@ -1,7 +1,5 @@
 # coding: utf-8
-# Copyright 2012 litl, LLC. All Rights Reserved.
-
-__version__ = "1.0.0"
+# Copyright 2012-2015 litl, LLC. All Rights Reserved.
 
 import abc
 import itertools
@@ -9,9 +7,27 @@ import logging
 import os
 import sqlite3
 
+__version__ = "1.1.0"
+
 logger = logging.getLogger(__name__)
 
 __all__ = ["SQLiteStore", "KVStore"]
+
+import sys
+if sys.version_info < (3,):
+    def b(x):
+        return x
+
+    def un_b(x):
+        return x
+else:
+    import codecs
+
+    def b(x):
+        return codecs.latin_1_encode(x)[0]
+
+    def un_b(x):
+        return codecs.latin_1_decode(x)[0]
 
 
 class KVStore(object):
@@ -244,7 +260,7 @@ class SQLiteStore(KVStore):
         self.conn = sqlite3.connect(path)
 
         # Don't create unicode objects for retrieved values
-        self.conn.text_factory = buffer
+        self.conn.text_factory = memoryview
 
         # Disable the SQLite cache. Its pages tend to get swapped
         # out, even if the database file is in buffer cache.
@@ -284,15 +300,16 @@ CREATE TABLE kv (
         q = "SELECT value FROM kv WHERE key = ?"
         c = self.conn.cursor()
 
-        row = c.execute(q, (sqlite3.Binary(key),)).fetchone()
+        row = c.execute(q, (sqlite3.Binary(b(key)),)).fetchone()
         if not row:
             return default
 
-        return bytes(row[0])
+        return un_b(bytes(row[0]))
 
     def put(self, key, value):
         q = "INSERT OR REPLACE INTO kv (key, value) VALUES (?, ?)"
-        self.conn.execute(q, (sqlite3.Binary(key), sqlite3.Binary(value)))
+        self.conn.execute(q,
+                          (sqlite3.Binary(b(key)), sqlite3.Binary(b(value))))
         self.conn.commit()
 
     def put_many(self, items):
@@ -301,14 +318,15 @@ CREATE TABLE kv (
 
         blob = sqlite3.Binary
         for batch in ibatch(items, 30000):
-            items = ((blob(key), blob(value)) for key, value in batch)
+            items = ((blob(b(key)), blob(b(value)))
+                     for key, value in batch)
 
             c.executemany(q, items)
             self.conn.commit()
 
     def delete(self, key):
         q = "DELETE FROM kv WHERE key = ?"
-        self.conn.execute(q, (sqlite3.Binary(key),))
+        self.conn.execute(q, (sqlite3.Binary(b(key)),))
         self.conn.commit()
 
     def delete_many(self, keys):
@@ -317,19 +335,23 @@ CREATE TABLE kv (
 
         blob = sqlite3.Binary
         for batch in ibatch(keys, 30000):
-            items = ((blob(key),) for key in batch)
+            items = ((blob(b(key)),) for key in batch)
 
             c.executemany(q, items)
             self.conn.commit()
 
     def _range_where(self, key_from=None, key_to=None):
         if key_from is not None and key_to is None:
+            key_from = b(key_from)
             return "WHERE key >= :key_from"
 
         if key_from is None and key_to is not None:
+            key_to = b(key_to)
             return "WHERE key <= :key_to"
 
         if key_from is not None and key_to is not None:
+            key_from = b(key_from)
+            key_to = b(key_to)
             return "WHERE key BETWEEN :key_from AND :key_to"
 
         return ""
@@ -339,25 +361,25 @@ CREATE TABLE kv (
             % self._range_where(key_from, key_to)
 
         if key_from is not None:
-            key_from = sqlite3.Binary(key_from)
+            key_from = sqlite3.Binary(b(key_from))
 
         if key_to is not None:
-            key_to = sqlite3.Binary(key_to)
+            key_to = sqlite3.Binary(b(key_to))
 
         c = self.conn.cursor()
         for key, value in c.execute(q, dict(key_from=key_from, key_to=key_to)):
-            yield bytes(key), bytes(value)
+            yield un_b(bytes(key)), un_b(bytes(value))
 
     def keys(self, key_from=None, key_to=None):
         q = "SELECT key FROM kv %s ORDER BY key " \
             % self._range_where(key_from, key_to)
 
         if key_from is not None:
-            key_from = sqlite3.Binary(key_from)
+            key_from = sqlite3.Binary(b(key_from))
 
         if key_to is not None:
-            key_to = sqlite3.Binary(key_to)
+            key_to = sqlite3.Binary(b(key_to))
 
         c = self.conn.cursor()
         for key, in c.execute(q, dict(key_from=key_from, key_to=key_to)):
-            yield bytes(key)
+            yield un_b(bytes(key))

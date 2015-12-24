@@ -1,3 +1,6 @@
+.. image:: https://travis-ci.org/litl/park.svg?branch=master :alt: Build Status
+.. image:: https://coveralls.io/repos/litl/park/badge.svg?branch=master :alt: Coverage Status
+
 Park is a persistent key-value API for Python with ordered traversal
 of keys. Both keys and values are binary safe. It's similar in use to
 LevelDB, but has no dependencies outside the Python standard library.
